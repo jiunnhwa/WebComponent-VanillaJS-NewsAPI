@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bitcoin News From NewsAPI</title> 
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header>
+    <h1>Bitcoin News Feed</h1>
+  </header>
+  <p id="timenow"></p>
+  <main></main>
+ 
+<script>
+
+function updateTimeNow(){
+    dt = new Date();
+    document.getElementById("timenow").innerHTML = dt.toString();
+}
+
+const newsUrl = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey={API_KEY}';
+async function fetchNews(){
+    const res = await fetch(newsUrl);
+    const json = await res.json();
+    const main = document.querySelector('main');
+    json.articles.forEach(article => {
+        const el = document.createElement('news-btc')
+        el.article = article;
+        main.appendChild(el);
+    });
+  }
+
+class NewsItem extends HTMLElement{
+    set article (article){
+        this.innerHTML= `
+        <style>
+            h2 {font-family: Georgia, 'Times New Roman', Times, serif;}
+            a,a:visited {text-decoration: none;color: inherit;}
+            img {width: 100%;}
+        </style>        
+        <a href ="${article.url}">
+        <h2>"${article.title}"</h2>
+        <img src="${article.urlToImage || '' } ">
+        <p>"${article.description  || ''}"</p>
+        </a>`;
+    }
+} 
+customElements.define ('news-btc', NewsItem);
+window.addEventListener('load', () => {
+  updateTimeNow();
+  fetchNews();
+});
+
+</script>
+</body>
+</html>
