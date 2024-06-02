@@ -21,7 +21,8 @@ function updateTimeNow(){
     document.getElementById("timenow").innerHTML = dt.toString();
 }
 
-const newsUrl = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey={API_KEY}';
+//const newsUrl = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey={API_KEY}';
+const newsUrl = 'news.json';
 async function fetchNews(){
     const res = await fetch(newsUrl);
     const json = await res.json();
