@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="HTML5 Starter Template">
+    <meta name="author" content="Jiunn">    
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css?v=1.0">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->    
+  </head>
+  <body>
+    <main>
+        <h1>Fetch API then Map to display JSON data</h1>  
+        <button id="get-data-users" >Get Users</button>
+        <button id="get-data-lifenum" >Get Lifenum</button>
+        <div id="display-data">
+
+        </div>
+    </main>
+	<script defer src="index.js"></script>
+    <script>
+
+const getDataButtonLifeNum = document.getElementById('get-data-lifenum');
+const getDataButtonUsers = document.getElementById('get-data-users');
+const display = document.querySelector('#display-data');
+
+const getDataLefeNum = async () => {
+    const url = 'https://render-fastapi-test01.onrender.com/lifenum/?dob=12-12-1988'
+    const response = await fetch(url);
+    console.log(response);
+    const data = await response.json();
+    
+    console.log(data);
+    display.innerHTML = "";
+    display.innerHTML = data
+    .map((user) => `<div class="user"><h3>${user.name}</h3><p>${user.email}</p></div>`)     
+    .join('');  
+
+}
+
+const getDataUsers = async () => {
+    const url = 'https://jsonplaceholder.typicode.com/users';
+    const response = await fetch(url);
+    console.log(response);
+    const data = await response.json();
+    
+    console.log(data);
+    display.innerHTML = "";
+    display.innerHTML = data
+    .map((user) => `<div class="user"><h3>${user.name}</h3><p>${user.email}</p></div>`)     
+    .join('');  
+
+}
+
+//getDataUsers();
+getDataButtonUsers.addEventListener('click', getDataUsers);
+getDataButtonLifeNum.addEventListener('click', getDataLefeNum);
+
+
+    </script>
+  </body>
+</html>
